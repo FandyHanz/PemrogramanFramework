@@ -1,9 +1,15 @@
-import HeroSection from "@/pages/views/home";
+import Head from 'next/head'
+import { Inter } from 'next/font/google'
 
-export default function HomePage() {
+const inter = Inter({subsets: ['latin']})
+export default function Home() {
   return (
-    <main>
-      <HeroSection />
-    </main>
-  );
+    <div>
+      <Head>
+        <title>Praktikum Next.js Pages Router</title>
+      </Head>
+      <h1>Praktikum Next.js Pages Router</h1>
+      <p>Mahasiswa D4 Pengembangan Web</p>
+    </div>
+  )
 }
