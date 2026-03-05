@@ -1,18 +1,9 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-// import Navbar from '@/components/layouts/navbar'
+import HeroSection from "@/pages/views/home";
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <div>
-      {/* <Navbar /> */}
-      <h1>Praktikum Next.js Pages Router</h1> <br />
-      <p>Mahasiswa D4 Pengembangan Web</p> <br />
-      <button><a href="about"> about me</a></button>
-    </div>
-  )
+    <main>
+      <HeroSection />
+    </main>
+  );
 }
