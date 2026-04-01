@@ -1,5 +1,5 @@
 
-import TampilanLogin from "../views/auth/login/"
+import TampilanLogin from "../../views/auth/login";
 
 export default function HalamanLogin(){
     return(

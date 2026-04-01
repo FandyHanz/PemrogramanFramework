@@ -1,5 +1,5 @@
-import TampilanProduk from "../views/produk";
-import { ProductType } from "../types/Product.types";
+import TampilanProduk from "../../views/produk";
+import { ProductType } from "../../types/Product.types";
 
 
 export default function halamanProdukServer (props: { products: ProductType[] }) {
