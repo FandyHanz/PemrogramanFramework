@@ -4,9 +4,9 @@ import TampilanProduk from "@/views/produk";
 import useSWR from "swr";
 import fetcher from "../../utils/swr/fetcher"; // Import fetcher eksternal
 
-const kategori = () => {
+export default function kategori() {
     // const [isLogin, setIsLogin] = useState(false);
-    // const { push } = useRouter();
+    const { push } = useRouter();
     const [products, setProducts] = useState([]);
 
     // Gunakan destructuring untuk mengambil fungsi mutate
@@ -40,12 +40,7 @@ const kategori = () => {
                 {/* Logika pengiriman data: jika loading kirim array kosong untuk skeleton */}
               <TampilanProduk products={data?.data ?? []} />
             </main>
-
-            <footer style={{ textAlign: 'center', marginTop: '20px', color: '#888' }}>
-                <p>Yo its me Fandy Wahyu Hanzura</p>
-            </footer>
         </div>
     );
 };
 
-export default kategori;
