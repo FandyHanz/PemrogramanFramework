@@ -38,7 +38,7 @@ const kategori = () => {
 
             <main>
                 {/* Logika pengiriman data: jika loading kirim array kosong untuk skeleton */}
-                <TampilanProduk products={isLoading ? [] : data?.data} />
+              <TampilanProduk products={data?.data ?? []} />
             </main>
 
             <footer style={{ textAlign: 'center', marginTop: '20px', color: '#888' }}>

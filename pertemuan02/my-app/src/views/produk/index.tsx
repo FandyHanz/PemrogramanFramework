@@ -1,32 +1,33 @@
 import styles from "./produk.module.scss";
+import Link from "next/link"; // 1. WAJIB IMPORT INI!
 
 type ProductType = {
   id: string;
   name: string;
   price: number;
-  images: string; // Sesuai data JSON API kamu
+  images: string;
   category: string;
 };
 
 const TampilanProduk = ({ products = [] }: { products: ProductType[] }) => {
-  // Tambahkan log ini untuk melihat di Inspect Console (F12) apakah data masuk
-  console.log("Daftar produk di komponen:", products);
-
   return (
     <div className={styles.produk}>
       <h1 className={styles.produk__title}>Daftar Produk</h1>
       <div className={styles.produk__content}>
         
-        {/* Gunakan Optional Chaining ?. agar tidak error saat loading */}
         {products?.length > 0 ? (
           products.map((product) => (
-            <div key={product.id} className={styles.produk__content__item}>
+            /* 2. BUNGKUS PAKE LINK DI SINI */
+            <Link 
+              href={`/produk/${product.id}`} 
+              key={product.id} 
+              className={styles.produk__content__item}
+            >
               <div className={styles.produk__content__item__image}>
                 <img 
                   src={product.images} 
                   alt={product.name} 
                   onError={(e) => {
-                    // Fallback jika URL gambar dari Firebase rusak/mati
                     (e.target as HTMLImageElement).src = "https://via.placeholder.com/200";
                   }}
                 />
@@ -34,18 +35,16 @@ const TampilanProduk = ({ products = [] }: { products: ProductType[] }) => {
               <h4 className={styles.produk__content__item__name}>{product.name}</h4>
               <p className={styles.produk__content__item__category}>{product.category}</p>
               <p className={styles.produk__content__item__price}>
-                Rp {product.price.toLocaleString("id-ID")}
+                Rp {Number(product.price).toLocaleString("id-ID")}
               </p>
-            </div>
+            </Link>
           ))
         ) : (
-          /* Tampilkan 3 skeleton saat data masih kosong */
+          /* Skeleton loading tetap pake div biasa */
           [1, 2, 3].map((item) => (
             <div key={item} className={styles.produk__content__skeleton}>
               <div className={styles.produk__content__skeleton__image}></div>
-              <div className={styles.produk__content__skeleton__name}></div>
-              <div className={styles.produk__content__skeleton__category}></div>
-              <div className={styles.produk__content__skeleton__price}></div>
+              {/* ... sisa skeleton ... */}
             </div>
           ))
         )}

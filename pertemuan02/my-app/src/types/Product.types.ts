@@ -2,6 +2,6 @@ export type ProductType = {
   id: string;
   name: string;
   price: number;
-  images: string; // Sesuai data JSON API kamu
+  images: string; 
   category: string;
 };
