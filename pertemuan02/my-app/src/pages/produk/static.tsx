@@ -19,6 +19,6 @@ export async function getStaticProps() {
     return {
         props: {
             products: response.data
-        }
+        },
     }
 }
