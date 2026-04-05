@@ -13,7 +13,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -27,8 +27,10 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/pages/shop/[[...slug]].js", "src/pages/category/[[...slug]].js"  ],
+    "**/*.tsx",
+    "src/pages/shop/[[...slug]].js",
+    "src/pages/category/[[...slug]].js"
+  ],
   "exclude": [
     "node_modules"
   ]
