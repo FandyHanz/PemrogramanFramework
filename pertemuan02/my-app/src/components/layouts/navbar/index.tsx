@@ -2,9 +2,8 @@ import styles from './navbar.module.css';
 import { signIn, signOut, useSession } from "next-auth/react"
 
 export default function Navbar() {
-    const { data }: any = useSession()
-    //const { data: session } = useSession()
-    // console.log("session", session)
+    const { data: session }: any = useSession()
+
     return (
         <div className={styles.navbar}>
             <div className={styles.navbar__brand}>
@@ -12,14 +11,14 @@ export default function Navbar() {
             </div>
 
             <div className={styles.navbar__right}>
-                {data ? (
+                {session ? (
                     <>
                         <div className={styles.navbar__user}>
-                            Welcome, {data.user?.name}
+                            Welcome, {session.user?.fullname || session.user?.name || "User"}
                         </div>
                         <button
                             className={`${styles.navbar__button} ${styles["navbar__button--danger"]}`}
-                            onClick={() => signOut()}
+                            onClick={() => signOut({ callbackUrl: "/" })}
                         >
                             Sign Out
                         </button>
@@ -36,4 +35,3 @@ export default function Navbar() {
         </div>
     );
 };
-

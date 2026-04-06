@@ -56,3 +56,15 @@ export async function signUp(
     callback({ status: "error", message: error.message });
   }
 }
+
+export async function signIn(email: string) {
+  const q = query(collection(db, "users"), where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+  
+  if (!querySnapshot.empty) {
+    const doc = querySnapshot.docs[0];
+    return { id: doc.id, ...doc.data() };
+  } else {
+    return null; 
+  }
+}
