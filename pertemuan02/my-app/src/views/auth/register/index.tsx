@@ -67,6 +67,7 @@ export default function TampilanRegister() {
                         <select name="role" id="role" className={style.register__form__item__input}>
                             <option value="member">Member</option>
                             <option value="admin">Admin</option>
+                            <option value="editor">Editor</option>
                         </select>
                     </div>
 

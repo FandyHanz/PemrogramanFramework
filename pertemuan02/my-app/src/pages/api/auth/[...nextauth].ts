@@ -1,7 +1,12 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { signIn } from "@/utils/db/servicefirebase";
+import { loginWithExternalProvider, signIn, signInWithGoogle } from "@/utils/db/servicefirebase";
+import GoogleProvider from "next-auth/providers/google";
+import Github from "next-auth/providers/github";
+import GithubProvider from "next-auth/providers/github";
+
+
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -12,7 +17,6 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                // fullname: { label: "Full Name", type: "text" },
                 email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" }
             },
@@ -33,36 +37,65 @@ export const authOptions: NextAuthOptions = {
                             email: user.email,
                             fullname: user.fullname,
                             role: user.role,
+                            image: user.image, 
                         };
                     }
                 }
                 return null;
             },
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID || "",
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+        }),
+        GithubProvider({
+            clientId: process.env.GITHUB_CLIENT_ID || "",
+            clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
         })
     ],
 
     callbacks: {
-    async jwt({ token, user }: any) {
-        // Saat pertama kali login, objek 'user' akan berisi return dari authorize
-        if (user) {
-            token.email = user.email;
-            token.fullname = user.fullname;
-            token.role = user.role;
-        }
-        return token;
-    },
+        async jwt({ token, user, account }: any) {
+            
+            if (account?.provider === "credentials" && user) {
+                token.email = user.email;
+                token.fullname = user.fullname;
+                token.role = user.role;
+            }
 
-    async session({ session, token }: any) {
-        if (session.user) {
-            session.user.email = token.email;
-            session.user.fullname = token.fullname;
-            session.user.role = token.role;
+            if (account?.provider === "google" || account?.provider === "github") {
+                const data = {
+                    fullname: user.name,
+                    email: user.email,
+                    image: user.image,
+                    type: account.provider,
+                };
+
+                await loginWithExternalProvider(data, (result: any) => {
+                    
+                    if (result.status) {
+                        token.fullname = result.data.fullname;
+                        token.email = result.data.email;
+                        token.image = result.data.image;
+                        token.type = result.data.type;
+                        token.role = result.data.role; 
+                    }
+                });
+            }
+            return token;
+        },
+
+        async session({ session, token }: any) {
+            
+            if (token && session.user) {
+                session.user.email = token.email;
+                session.user.fullname = token.fullname;
+                session.user.role = token.role;
+                session.user.image = token.image;
+            }
+            return session;
         }
-        console.log("Session Callback:", session); 
-        
-        return session;
-    }
-},
+    },
 
     pages: {
         signIn: "/auth/login"
