@@ -75,7 +75,7 @@ export default function TampilanLogin() {
                     >
                         {isLoading ? "Loading..." : "sign in with google"}
                     </button>
-                    <br /> <br />
+                    <br />
                     <button
                         onClick={() => signIn("github", { callbackUrl, redirect: false })}
                         className={style.login__form__item__button}

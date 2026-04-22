@@ -1,15 +1,19 @@
+import Script from 'next/dist/client/script';
 import styles from './navbar.module.css';
 import { signIn, signOut, useSession } from "next-auth/react"
 import Image from 'next/image';
 export default function Navbar() {
-    // Memberikan alias 'data' ke 'session' agar sama dengan instruksi gambar
     const { data: session }: any = useSession()
 
     return (
         <div className={styles.navbar}>
-            <div className={styles.navbar__brand}>
+            {/* <div className={styles.navbar__brand}>
                 MyApp
-            </div>
+            </div> */}
+            <div className={styles.navbar__brand} id="title"></div>
+            <Script id="title-script" strategy="lazyOnload">
+                {`document.getElementById('title').textContent = 'MyApp';`}
+            </Script>
 
             <div className={styles.navbar__right}>
                 {session ? (
@@ -21,8 +25,8 @@ export default function Navbar() {
                                 <Image
                                     src={session.user.image}
                                     alt={session.user.fullname}
-                                    width={42}
-                                    height={42}
+                                    width={50}
+                                    height={50}
                                     className={styles.navbar__user__image}
                                     referrerPolicy="no-referrer"
                                 />

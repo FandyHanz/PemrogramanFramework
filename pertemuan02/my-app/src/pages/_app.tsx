@@ -1,16 +1,29 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import Navbar from '@/components/layouts/navbar'
 import AppShell from '@/components/layouts/AppShell'
 import { SessionProvider } from "next-auth/react";
 
-export default function App({ Component, pageProps : { session, ...pageProps}}: AppProps) {
+import Script from 'next/script';
+
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <SessionProvider session={pageProps.session}>
+    <SessionProvider session={session}>
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
+  `}
+      </Script>
+
       <AppShell>
         <Component {...pageProps} />
       </AppShell>
     </SessionProvider>
-
   );
 };
