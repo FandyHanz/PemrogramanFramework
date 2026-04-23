@@ -73,7 +73,7 @@ export default function TampilanLogin() {
                         className={style.login__form__item__button}
                         disabled={isLoading}
                     >
-                        {isLoading ? "Loading..." : "sign in with google"}
+                        Sign in with Google
                     </button>
                     <br />
                     <button
