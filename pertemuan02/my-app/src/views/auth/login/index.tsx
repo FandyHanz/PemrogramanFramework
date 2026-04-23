@@ -81,7 +81,7 @@ export default function TampilanLogin() {
                         className={style.login__form__item__button}
                         disabled={isLoading}
                     >
-                        {isLoading ? "Loading..." : "sign in with github"}
+                        Sign in with GitHub
                     </button>
                 </form>
                 <p className={style.login__link}>
